@@ -21,10 +21,6 @@
     keepStatic: true
    });
 </script>
-
-<script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
-<script src="https://rawgit.com/RobinHerbots/Inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-
 </head>
 <body>
 
