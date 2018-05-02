@@ -87,8 +87,10 @@ public class EnderecoServlet extends HttpServlet {
        break;
      
        case "pesquisar":
-           endereco = dao.pesquizarId(endereco.getId());
-           enderecos.add(endereco);
+           String texto = request.getParameter("texto");
+           enderecos = dao.consultar(texto);
+           request.setAttribute("enderecos", enderecos);
+           request.getRequestDispatcher("enderecoLista.jsp").forward(request, response);
        break;
        }
 

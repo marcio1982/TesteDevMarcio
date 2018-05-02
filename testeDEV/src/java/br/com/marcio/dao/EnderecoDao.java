@@ -78,7 +78,7 @@ public class EnderecoDao extends BaseDao{
        } catch (Exception e) {
            // TODO: handle exception
        }
-   }
+    }
 
     public Endereco pesquizarId(long Id) {
        // TODO Auto-generated method stub
@@ -105,8 +105,37 @@ public class EnderecoDao extends BaseDao{
        }
        return null;
 
-   }
-
+    }
+    
+    public List<Endereco> consultar(String texto) {
+        List<Endereco> lista = new ArrayList<>();
+        try {
+            Connection conexao = getConexao();
+            PreparedStatement pstm = conexao.prepareStatement("Select * from tbendereco where logradouro like ? or bairro like ? or cidade like ? or uf like ? or cep like ? ");
+            pstm.setString(1, '%'+texto+'%');
+            pstm.setString(2, '%'+texto+'%');
+            pstm.setString(3, '%'+texto+'%');
+            pstm.setString(4, '%'+texto+'%');
+            pstm.setString(5, '%'+texto+'%');
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Endereco endereco = new Endereco();
+                endereco.setId(rs.getLong("id"));
+                endereco.setCpfCnpj(rs.getString("cpfCnpj"));
+                endereco.setLogradouro(rs.getString("logradouro"));
+                endereco.setBairro(rs.getString("bairro"));
+                endereco.setCidade(rs.getString("cidade"));
+                endereco.setCep(rs.getString("cep"));
+                endereco.setUf(rs.getString("uf"));
+                lista.add(endereco);
+            }
+            pstm.close();
+            conexao.close();
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return lista;
+    }
     public List<Endereco> todos() {
         // TODO Auto-generated method stub
         List<Endereco> lista = new ArrayList<>();
@@ -133,5 +162,5 @@ public class EnderecoDao extends BaseDao{
             // TODO: handle exception
         }
         return null;
-    } 
+    }
 }

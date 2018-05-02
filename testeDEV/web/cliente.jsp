@@ -8,6 +8,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script language='JavaScript'>
+    function SomenteNumero(e){
+        var tecla=(window.event)?event.keyCode:e.which;
+        if((tecla>47 && tecla<58)) return true;
+        else{
+            if (tecla==8 || tecla==0) return true;
+            else  return false;
+        }
+    }
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   
@@ -15,12 +25,7 @@
   <script type="text/javascript" src="./resources/js/jquery.maskedinput.min.js"></script>
   <script type="text/javascript" src="./resources/js/jquery.validate.min.js"></script>
   <script type="text/javascript" src="./resources/js/jquery.zebra-datepicker.js"></script>
-  <script type="text/javascript">
-  $("input[id*='cpfCnpj']").inputmask({
-    mask: ['999.999.999-99', '99.999.999/9999-99'],
-    keepStatic: true
-   });
-</script>
+
 </head>
 <body>
 
@@ -45,27 +50,29 @@
              <% 
                 Cliente cliente = (Cliente)request.getAttribute("cliente");
              %>
+             <%java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy"); %>
             <fieldset>
                     <legend>Cadastro de Cliente</legend>
                     <div class="form-group">
-                            <label>CPF/CNPJ: </label>
-                            <input  id="cpfCnpj" name="cpfCnpj" class="form-control" autofocus="autofocus" required
+                            <label>CPF/CNPJ:(Somente números) </label>
+                            <input type="text" id="cpfCnpj" name="cpfCnpj" onkeypress="return SomenteNumero(event);" class="form-control" autofocus="autofocus" required
                                     value="<%= cliente != null ? cliente.getCpfCnpj(): "" %>"
-                                    placeholder="" size="20" />
+                                    placeholder="" size="20" maxlength="14" />
                     </div>
                     <div class="form-group">        
                         <label>Nome:</label>
                         <input name="nome" class="form-control" required="true"  
                                    value="<%= cliente != null ? cliente.getNome() : "" %>"/>
-                    </div>
+                    </div> 
                     <div class="form-group">
                         <label>Telefone:</label>
-                        <input name="telefone" type="text" class="form-control"
+                        <input name="telefone" type="text" class="form-control" onkeypress="return SomenteNumero(event);"
                                value="<%= cliente != null ?  cliente.getTelefone() : "" %>" id="telefone" />
                     </div>
                     <div class="form-group">
                         <label>Celular:</label>
-                        <input name="celular" type="text" class="form-control" id="celular">
+                        <input name="celular" type="text" class="form-control" onkeypress="return SomenteNumero(event);"
+                               value="<%= cliente != null ?  cliente.getCelular() : "" %>" id="celular">
                     </div>
                     <div class="form-group">
                          <label>Email:</label>
@@ -74,8 +81,9 @@
                     </div>
                     <div class="form-group">
                         <label>Data de Nascimento/Cadastro</label>
-                        <input name="" type="text" class="form-control" id="data" value="<%= cliente != null ? (cliente.getDataCadastro()) : "" %>"
-                                placeholder="" /><br /> 
+                        <input name="dataCadastro" type="text" class="form-control" onkeypress="return SomenteNumero(event);"
+                               id="data" value="<%= cliente != null ? (df.format(cliente.getDataCadastro())) : "" %>"
+                               placeholder="" /><br /> 
                     </div>
                     <% if (cliente != null){ %>
                         <input type="hidden" name="acao"value="Alterar">

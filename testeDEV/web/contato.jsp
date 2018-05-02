@@ -12,6 +12,16 @@
   <title>Cadastro de Endereço</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script language='JavaScript'>
+    function SomenteNumero(e){
+        var tecla=(window.event)?event.keyCode:e.which;
+        if((tecla>47 && tecla<58)) return true;
+        else{
+            if (tecla==8 || tecla==0) return true;
+            else  return false;
+        }
+    }
+  </script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -58,14 +68,9 @@
         <div class="form-group">
             <label>Cliente:</label>
             <select name="cpfCnpj"class="form-control" required="True">
-            <%
-                List<Cliente> list = ClienteServlet.getListClientes();
-                Cliente cli;
-                for (Object obj : list){
-                    cli = (Cliente)obj; %>
-                    <option value="<%=cli.getCpfCnpj()%>"><%=cli.getNome()%><option>
-            <%    }
-            %> 
+            <c:forEach var="cliente" items="${ClienteServlet.getListClientes()}">
+                    <option value="${cliente.cpfCnpj}">${cliente.nome}<option>
+            </c:forEach> 
             </select>
         </div>
         <div class="form-group">
@@ -74,7 +79,7 @@
         </div>
         <div class="form-group">
             <label>Telefone</label>
-            <input type="text" class="form-control" name="telefone" id="telefone" value="<%= contato != null ? contato.getTelefone() : "" %>" size="255">
+            <input type="text" class="form-control" name="telefone" onkeypress="return SomenteNumero(event);" id="telefone" value="<%= contato != null ? contato.getTelefone() : "" %>" size="255">
         </div>
          <div class="col-md-12">
             <button type="submit" class="btn btn-primary">Salvar</button>

@@ -1,0 +1,43 @@
+-- Database: teste
+
+-- DROP DATABASE teste;
+
+CREATE DATABASE teste
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Portuguese_Brazil.1252'
+       LC_CTYPE = 'Portuguese_Brazil.1252'
+       CONNECTION LIMIT = -1;
+
+CREATE TABLE  IF NOT EXISTS tbcliente(
+  id SERIAL,
+  cpfCnpj character varying(14) NOT NULL,  
+  nome character varying(255),
+  telefone character varying(20),  
+  celular character varying(20),  
+  email character varying(255),
+  datacadastro date,
+  CONSTRAINT tbcliente_pkey PRIMARY KEY (cpfCnpj) 
+);
+
+CREATE TABLE  IF NOT EXISTS tbendereco(
+  id SERIAL,
+  cpfCnpj character varying(14)NOT NULL,  
+  logradouro character varying(255),
+  bairro character varying(255),  
+  cidade character varying(200),
+  uf character varying(2),
+  cep character varying(10),
+  CONSTRAINT tbendereco_pkey PRIMARY KEY (id),
+  FOREIGN KEY(cpfCnpj ) REFERENCES tbcliente(cpfCnpj )
+);
+
+CREATE TABLE  IF NOT EXISTS tbcontato(
+  id SERIAL,
+  cpfCnpj character varying(14)NOT NULL,  
+  nome character varying(255),
+  telefone character varying(255),	
+  CONSTRAINT tbcontato_pkey PRIMARY KEY (id),
+  FOREIGN KEY(cpfCnpj ) REFERENCES tbcliente(cpfCnpj )
+);

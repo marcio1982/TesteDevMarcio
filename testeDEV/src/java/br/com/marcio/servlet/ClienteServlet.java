@@ -57,6 +57,7 @@ public class ClienteServlet extends HttpServlet {
                             cliente.setCpfCnpj((request.getParameter("cpfCnpj")));
                             cliente.setNome(request.getParameter("nome"));
                             cliente.setTelefone(request.getParameter("telefone"));
+                            cliente.setCelular(request.getParameter("celular"));
                             cliente.setEmail(request.getParameter("email"));
 
                             //Faz a leitura da data de cadastro. Caso ocorra um erro de formatação
@@ -91,32 +92,21 @@ public class ClienteServlet extends HttpServlet {
                             clienteDao.excluir(cliente);
                     } else if (acao.equalsIgnoreCase("Consultar")) {
                             String texto = request.getParameter("texto");
-                            request.setAttribute("cliente", cliente);
-                            cliente = clienteDao.consultar(texto);
-                            //destino = "clienteLista.jsp";
+                            lista = clienteDao.consultar(texto);
+                            request.setAttribute("listaCliente", lista);
+                            destino = "clienteLista.jsp";
+                    } else if (acao.equalsIgnoreCase("Listar")){
+                        // Lista todos os registros existente no Banco de Dados
+                        lista = clienteDao.listar();
+                        request.setAttribute("listaCliente", lista);
+                        request.setAttribute("mensagem", mensagem);
                     }
             } catch (Exception e) {
                     mensagem += e.getMessage();
                     destino = "erro.jsp";
                     e.printStackTrace();
             }
-            // Se a mensagem estiver vazia significa que houve sucesso!
-            // Senão será exibida a tela de erro do sistema.
-            //if (mensagem.length() == 0) {
-            //        mensagem = "Cliente Cadastrado com sucesso!";
-            //} else {
-            //        destino = "erro.jsp";
-            //}
- 
-            // Lista todos os registros existente no Banco de Dados
-            lista = clienteDao.listar();
-            request.setAttribute("listaCliente", lista);
             request.setAttribute("mensagem", mensagem);
-
-
-            //O sistema é direcionado para a página 
-            //sucesso.jsp Se tudo ocorreu bem
-            //erro.jsp se houver algum problema.
             RequestDispatcher rd = request.getRequestDispatcher(destino);
             rd.forward(request, response);
 	}

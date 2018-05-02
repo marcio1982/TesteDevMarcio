@@ -34,16 +34,17 @@
 <div class="container">
 	<div class="col-md-6">
             <legend>Listagem de Contato</legend>
-            <form action="ContatoController" method="post">
-            <div class="input-group h2">
-                <span class="input-group-btn">
-                    <input name="acao" value="pesquisar" class="form-control" type="text" placeholder="Pesquisar Itens">
-                    <button class="btn btn-primary" type="submit">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
+           <div class="input-group h2">
+                <form method="post" action="ContatoServlet">
+                    <span class="input-group-btn">
+                        <input type="hidden" name="acao"value="pesquisar">
+                        <input name="texto" class="form-control" type="text" placeholder="Pesquisar Itens">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </form>
             </div>
-            </form>
        </div>
         <div align="center">
 		<table class="table table-striped">

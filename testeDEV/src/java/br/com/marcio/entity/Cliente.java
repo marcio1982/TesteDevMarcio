@@ -19,6 +19,14 @@ public class Cliente implements Serializable {
     private String nome;
     private String telefone;
     private String celular;
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
     private String email;
     private Date dataCadastro;
     private Integer idade;
@@ -88,13 +96,5 @@ public class Cliente implements Serializable {
 
     public void setIdade(Integer idade) {
         this.idade = idade;
-    }
-
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) {
-        this.celular = celular;
     }
 }

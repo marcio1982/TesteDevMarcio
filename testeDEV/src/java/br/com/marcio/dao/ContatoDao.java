@@ -97,7 +97,32 @@ public class ContatoDao extends BaseDao {
        }
        return null;
 
-   }
+    }
+    
+    public List<Contato> consultar(String texto) {
+        List<Contato> lista = new ArrayList<>();
+        try {
+            Connection conexao = getConexao();
+            PreparedStatement pstm = conexao.prepareStatement("Select * from tbcontato where cpfCnpj like ? or nome like ? or telefone like ?");
+            pstm.setString(1, '%'+texto+'%');
+            pstm.setString(2, '%'+texto+'%');
+            pstm.setString(3, '%'+texto+'%');
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Contato contato = new Contato();
+                contato.setId(rs.getLong("id"));
+                contato.setCpfCnpj(rs.getString("cpfCnpj"));
+                contato.setNome(rs.getString("nome"));
+                contato.setTelefone(rs.getString("telefone"));
+                lista.add(contato);
+            }
+            pstm.close();
+            conexao.close();
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return lista;
+    }
 
     public List<Contato> todos() {
         // TODO Auto-generated method stub

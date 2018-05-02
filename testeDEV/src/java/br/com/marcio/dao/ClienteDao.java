@@ -138,29 +138,33 @@ public class ClienteDao extends BaseDao {
         return lista;
     }
  
-    public Cliente consultar(String texto) {
-        Cliente cliente = new Cliente();
+    public List<Cliente> consultar(String texto) {
+        List<Cliente> lista = new ArrayList<>();
         try {
             Connection conexao = getConexao();
-            PreparedStatement pstm = conexao
-                            .prepareStatement("Select * from tbcliente where telefone like ? or celular like ? ");
-            pstm.setString(1, texto);
-            pstm.setString(2, texto);
+            PreparedStatement pstm = conexao.prepareStatement("Select * from tbcliente where cpfcnpj like ? or nome like ? or telefone like ? or celular like ? or email like ? ");
+            pstm.setString(1, '%'+texto+'%');
+            pstm.setString(2, '%'+texto+'%');
+            pstm.setString(3, '%'+texto+'%');
+            pstm.setString(4, '%'+texto+'%');
+            pstm.setString(5, '%'+texto+'%');
             ResultSet rs = pstm.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
                 cliente.setCpfCnpj(rs.getString("cpfCnpj"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setTelefone(rs.getString("telefone"));
                 cliente.setCelular(rs.getString("celular"));
                 cliente.setEmail(rs.getString("email"));
                 cliente.setDataCadastro(new java.util.Date(rs.getDate("datacadastro").getTime()));
+                lista.add(cliente);
             }
             pstm.close();
             conexao.close();
         } catch (Exception e) {
                 e.printStackTrace();
         }
-            return cliente;
+        return lista;
     }
     public Cliente pesquisarId(String cpfCnpj) {
         // TODO Auto-generated method stub
@@ -173,11 +177,11 @@ public class ClienteDao extends BaseDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 cliente.setCpfCnpj(rs.getString("cpfCnpj"));
-                //cliente.setDataCadastro(rs.getString("dataCadastro");
                 cliente.setEmail(rs.getString("email"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setTelefone(rs.getString("telefone"));
-                cliente.setTelefone(rs.getString("email"));
+                cliente.setCelular(rs.getString("celular"));
+                cliente.setDataCadastro(new java.util.Date(rs.getDate("datacadastro").getTime()));
             }
             ps.close();
             rs.close();

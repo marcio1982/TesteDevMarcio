@@ -7,10 +7,7 @@ package br.com.marcio.servlet;
 
 import br.com.marcio.dao.ContatoDao;
 import br.com.marcio.entity.Contato;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -78,17 +75,19 @@ public class ContatoServlet extends HttpServlet {
            String id = request.getParameter("id");
            long idContato = Long.parseLong(id);
            contato = dao.pesquizarId(idContato);
-           request.setAttribute("endereco", contato);
-           request.getRequestDispatcher("endereco.jsp").forward(request, response);
+           request.setAttribute("contato", contato);
+           request.getRequestDispatcher("contato.jsp").forward(request, response);
        break;
      
        case "pesquisar":
-           contato = dao.pesquizarId(contato.getId());
-           contatos.add(contato);
+           String texto = request.getParameter("texto");
+           contatos = dao.consultar(texto);
+           request.setAttribute("contatos", contatos);
+           request.getRequestDispatcher("contatoLista.jsp").forward(request, response);
        break;
        }
 
-       request.setAttribute("enderecos", contatos);
+       request.setAttribute("contatos", contatos);
        request.getRequestDispatcher(pagina).forward(request, response);
     }
 
