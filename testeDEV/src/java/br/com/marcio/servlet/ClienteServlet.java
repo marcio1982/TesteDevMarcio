@@ -81,6 +81,8 @@ public class ClienteServlet extends HttpServlet {
                             } else {
                                     clienteDao.inserir(cliente);
                             }
+                            lista = clienteDao.listar();
+                            request.setAttribute("listaCliente", lista);
                     } else if (acao.equalsIgnoreCase("editando")){ 
                             String cpfCnpj = request.getParameter("cpfCnpj");
                             cliente = clienteDao.pesquisarId(cpfCnpj);
@@ -88,8 +90,12 @@ public class ClienteServlet extends HttpServlet {
                             request.getRequestDispatcher("cliente.jsp").forward(request, response);
                     } else if (acao.equalsIgnoreCase("Alterar")) {
                             clienteDao.alterar(cliente);
+                            lista = clienteDao.listar();
+                            request.setAttribute("listaCliente", lista);
                     } else if (acao.equalsIgnoreCase("Excluir")) {
                             clienteDao.excluir(cliente);
+                            lista = clienteDao.listar();
+                            request.setAttribute("listaCliente", lista);
                     } else if (acao.equalsIgnoreCase("Consultar")) {
                             String texto = request.getParameter("texto");
                             lista = clienteDao.consultar(texto);
@@ -106,6 +112,7 @@ public class ClienteServlet extends HttpServlet {
                     destino = "erro.jsp";
                     e.printStackTrace();
             }
+            
             request.setAttribute("mensagem", mensagem);
             RequestDispatcher rd = request.getRequestDispatcher(destino);
             rd.forward(request, response);
