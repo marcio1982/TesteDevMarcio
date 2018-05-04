@@ -21,7 +21,7 @@
       <a class="navbar-brand" href="index.jsp">Site S.A</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="cliente.jsp">Cadastrar Endereço</a></li>
+      <li><a href="cliente.jsp">Cadastrar Cliente</a></li>
       <li><a href="ClienteServlet?acao=Listar">Listar Cliente</a></li>
       <li><a href="endereco.jsp">Cadastrar Endereço</a></li>
       <li><a href="EnderecoServlet?acao=Listar">Listar Endereço</a></li>
